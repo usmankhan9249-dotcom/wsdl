@@ -74,7 +74,7 @@
         <operation name="create">
             <soap:operation soapAction="urn:create"/>
             <input>
-                F
+                <soap:body use="literal"/>
                 <soap:header message="tns:createLeadRequest" part="SessionHeader" use="literal"/>
                 <soap:header message="tns:createLeadRequest" part="EmailHeader" use="literal"/>
             </input>

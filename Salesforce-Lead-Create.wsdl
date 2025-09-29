@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns:tns="urn:partner.soap.sforce.com"
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns:sobject="urn:sobject.partner.soap.sforce.com"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              name="SalesforceLeadCreate"
              targetNamespace="urn:partner.soap.sforce.com">
 
     <types>
-        <xsd:schema targetNamespace="urn:sobject.partner.soap.sforce.com">
+        <xsd:schema targetNamespace="urn:sobject.partner.soap.sforce.com"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <xsd:element name="Lead">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="type" type="xsd:string"/>
                         <xsd:element name="Company" type="xsd:string"/>
                         <xsd:element name="Email" type="xsd:string"/>
                         <xsd:element name="PostalCode" type="xsd:string"/>
@@ -35,6 +35,32 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+        </xsd:schema>
+
+        <xsd:schema targetNamespace="urn:partner.soap.sforce.com"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="create">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sObjects" type="sobject:Lead"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="createResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="tns:SaveResult"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="SaveResult">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string"/>
+                    <xsd:element name="success" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:complexType>
 
             <xsd:element name="SessionHeader">
                 <xsd:complexType>
@@ -55,28 +81,26 @@
     </types>
 
     <message name="createLeadRequest">
-        <part name="sObjects" element="sobject:Lead"/>
+        <part name="parameters" element="tns:create"/>
     </message>
 
     <message name="createLeadResponse">
-        <part name="result" type="xsd:string"/>
+        <part name="parameters" element="tns:createResponse"/>
     </message>
 
-    <portType name="SalesforceLeadCreatePortType">
+    <portType name="SalesforceLeadPortType">
         <operation name="create">
             <input message="tns:createLeadRequest"/>
             <output message="tns:createLeadResponse"/>
         </operation>
     </portType>
 
-    <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
+    <binding name="SalesforceLeadBinding" type="tns:SalesforceLeadPortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
         <operation name="create">
             <soap:operation soapAction="urn:create"/>
             <input>
                 <soap:body use="literal"/>
-                <soap:header message="tns:createLeadRequest" part="SessionHeader" use="literal"/>
-                <soap:header message="tns:createLeadRequest" part="EmailHeader" use="literal"/>
             </input>
             <output>
                 <soap:body use="literal"/>
@@ -84,8 +108,8 @@
         </operation>
     </binding>
 
-    <service name="SalesforceLeadCreateService">
-        <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
+    <service name="SalesforceLeadService">
+        <port name="SalesforceLeadPort" binding="tns:SalesforceLeadBinding">
             <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
         </port>
     </service>

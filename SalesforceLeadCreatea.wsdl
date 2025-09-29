@@ -1,89 +1,137 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="urn:partner.soap.sforce.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sobject="urn:sobject.partner.soap.sforce.com" name="SalesforceLeadCreate" targetNamespace="urn:partner.soap.sforce.com">
-  <types>
-    <xsd:schema targetNamespace="urn:sobject.partner.soap.sforce.com">
-      <xsd:element name="Lead">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="type" type="xsd:string"/>
-            <xsd:element name="Company" type="xsd:string"/>
-            <xsd:element name="Email" type="xsd:string"/>
-            <xsd:element name="PostalCode" type="xsd:string"/>
-            <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
-            <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
-            <xsd:element name="Industry" type="xsd:string"/>
-            <xsd:element name="Phone" type="xsd:string"/>
-            <xsd:element name="Street" type="xsd:string"/>
-            <xsd:element name="Type_of_Business__c" type="xsd:string"/>
-            <xsd:element name="Referral_ID__c" type="xsd:string"/>
-            <xsd:element name="City" type="xsd:string"/>
-            <xsd:element name="OwnerID" type="xsd:string"/>
-            <xsd:element name="LeadSource" type="xsd:string"/>
-            <xsd:element name="State" type="xsd:string"/>
-            <xsd:element name="Comments__c" type="xsd:string"/>
-            <xsd:element name="RecordTypeID" type="xsd:string"/>
-            <xsd:element name="Country" type="xsd:string"/>
-            <xsd:element name="Referral_URL__c" type="xsd:string"/>
-            <xsd:element name="LastName" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-    </xsd:schema>
-    <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
-      <xsd:element name="create">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="sObjects" type="sobject:Lead"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-      <xsd:element name="SessionHeader">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="sessionId" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-      <xsd:element name="EmailHeader">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="triggerUserEmail" type="xsd:boolean"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-    </xsd:schema>
-  </types>
-  <message name="createLeadRequest">
-    <part name="parameters" element="tns:create"/>
-    <part name="SessionHeader" element="tns:SessionHeader"/>
-    <part name="EmailHeader" element="tns:EmailHeader"/>
-  </message>
-  <message name="createLeadResponse">
-    <part name="result" type="xsd:string"/>
-  </message>
-  <portType name="SalesforceLeadCreatePortType">
-    <operation name="create">
-      <input message="tns:createLeadRequest"/>
-      <output message="tns:createLeadResponse"/>
-    </operation>
-  </portType>
-  <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="create">
-      <soap:operation soapAction="urn:create"/>
-      <input>
-        <soap:body use="literal"/>
-        <soap:header message="tns:createLeadRequest" part="SessionHeader" use="literal"/>
-        <soap:header message="tns:createLeadRequest" part="EmailHeader" use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-  </binding>
-  <service name="SalesforceLeadCreateService">
-    <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
-      <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
-    </port>
-  </service>
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="urn:partner.soap.sforce.com"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:sobject="urn:sobject.partner.soap.sforce.com"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="SalesforceLeadCreate"
+             targetNamespace="urn:partner.soap.sforce.com">
+
+    <types>
+        <xsd:schema targetNamespace="urn:sobject.partner.soap.sforce.com">
+            <xsd:element name="Lead">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="type" type="xsd:string"/>
+                        <xsd:element name="Company" type="xsd:string"/>
+                        <xsd:element name="Email" type="xsd:string"/>
+                        <xsd:element name="PostalCode" type="xsd:string"/>
+                        <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
+                        <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
+                        <xsd:element name="Industry" type="xsd:string"/>
+                        <xsd:element name="Phone" type="xsd:string"/>
+                        <xsd:element name="Street" type="xsd:string"/>
+                        <xsd:element name="Type_of_Business__c" type="xsd:string"/>
+                        <xsd:element name="Referral_ID__c" type="xsd:string"/>
+                        <xsd:element name="City" type="xsd:string"/>
+                        <xsd:element name="OwnerID" type="xsd:string"/>
+                        <xsd:element name="LeadSource" type="xsd:string"/>
+                        <xsd:element name="State" type="xsd:string"/>
+                        <xsd:element name="Comments__c" type="xsd:string"/>
+                        <xsd:element name="RecordTypeID" type="xsd:string"/>
+                        <xsd:element name="Country" type="xsd:string"/>
+                        <xsd:element name="Referral_URL__c" type="xsd:string"/>
+                        <xsd:element name="LastName" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+
+        <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
+            <xsd:element name="create">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sObjects" type="sobject:Lead"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="createResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="tns:SaveResult"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="SaveResult">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:string"/>
+                    <xsd:element name="success" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="SessionHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sessionId" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="EmailHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="triggerUserEmail" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="LimitInfoHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="limitInfo">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="current" type="xsd:int"/>
+                                    <xsd:element name="limit" type="xsd:int"/>
+                                    <xsd:element name="type" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="createLeadRequest">
+        <part name="parameters" element="tns:create"/>
+        <part name="SessionHeader" element="tns:SessionHeader"/>
+        <part name="EmailHeader" element="tns:EmailHeader"/>
+    </message>
+
+    <message name="createLeadResponse">
+        <part name="parameters" element="tns:createResponse"/>
+        <part name="LimitInfoHeader" element="tns:LimitInfoHeader"/>
+    </message>
+
+    <portType name="SalesforceLeadCreatePortType">
+        <operation name="create">
+            <input message="tns:createLeadRequest"/>
+            <output message="tns:createLeadResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="create">
+            <soap:operation soapAction="urn:create"/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:createLeadRequest" part="SessionHeader" use="literal"/>
+                <soap:header message="tns:createLeadRequest" part="EmailHeader" use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:createLeadResponse" part="LimitInfoHeader" use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="SalesforceLeadCreateService">
+        <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
+            <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
+        </port>
+    </service>
 </definitions>

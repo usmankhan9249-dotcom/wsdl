@@ -1,98 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
-             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns:tns="urn:partner.soap.sforce.com"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="SalesforceLeadCreate"
              targetNamespace="urn:partner.soap.sforce.com">
 
     <types>
         <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
-            <xsd:element name="loginRequest">
+            <xsd:element name="create">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="request" type="tns:LoginRequestType"/>
+                        <xsd:element name="sObjects" type="tns:Lead"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:complexType name="LoginRequestType">
-                <xsd:sequence>
-                    <xsd:element name="username" type="xsd:string"/>
-                    <xsd:element name="password" type="xsd:string"/>
-                </xsd:sequence>
-            </xsd:complexType>
-
-            <xsd:element name="loginResponse">
+            <xsd:element name="createResponse">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="result" type="tns:LoginResult"/>
+                        <xsd:element name="result" type="xsd:string"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:complexType name="LoginResult">
+            <xsd:complexType name="Lead">
                 <xsd:sequence>
-                    <xsd:element name="metadataServerUrl" type="xsd:string"/>
-                    <xsd:element name="passwordExpired" type="xsd:boolean"/>
-                    <xsd:element name="sandbox" type="xsd:boolean"/>
-                    <xsd:element name="serverUrl" type="xsd:string"/>
-                    <xsd:element name="sessionId" type="xsd:string"/>
-                    <xsd:element name="userId" type="xsd:string"/>
-                    <xsd:element name="userInfo" type="tns:UserInfo"/>
+                    <xsd:element name="type" type="xsd:string"/>
+                    <xsd:element name="Company" type="xsd:string"/>
+                    <xsd:element name="Email" type="xsd:string"/>
+                    <xsd:element name="PostalCode" type="xsd:string"/>
+                    <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
+                    <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
+                    <xsd:element name="Industry" type="xsd:string"/>
+                    <xsd:element name="Phone" type="xsd:string"/>
+                    <xsd:element name="Street" type="xsd:string"/>
+                    <xsd:element name="Type_of_Business__c" type="xsd:string"/>
+                    <xsd:element name="Referral_ID__c" type="xsd:string"/>
+                    <xsd:element name="City" type="xsd:string"/>
+                    <xsd:element name="OwnerID" type="xsd:string"/>
+                    <xsd:element name="LeadSource" type="xsd:string"/>
+                    <xsd:element name="State" type="xsd:string"/>
+                    <xsd:element name="Comments__c" type="xsd:string"/>
+                    <xsd:element name="RecordTypeID" type="xsd:string"/>
+                    <xsd:element name="Country" type="xsd:string"/>
+                    <xsd:element name="Referral_URL__c" type="xsd:string"/>
+                    <xsd:element name="LastName" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
 
-            <xsd:complexType name="UserInfo">
-                <xsd:sequence>
-                    <xsd:element name="accessibilityMode" type="xsd:boolean"/>
-                    <xsd:element name="chatterExternal" type="xsd:boolean"/>
-                    <xsd:element name="currencySymbol" type="xsd:string" minOccurs="0" nillable="true"/>
-                    <xsd:element name="orgAttachmentFileSizeLimit" type="xsd:int"/>
-                    <xsd:element name="orgDefaultCurrencyIsoCode" type="xsd:string" minOccurs="0" nillable="true"/>
-                    <xsd:element name="orgDefaultCurrencyLocale" type="xsd:string" minOccurs="0" nillable="true"/>
-                    <xsd:element name="orgDisallowHtmlAttachments" type="xsd:boolean"/>
-                    <xsd:element name="orgHasPersonAccounts" type="xsd:boolean"/>
-                    <xsd:element name="organizationId" type="xsd:string"/>
-                    <xsd:element name="organizationMultiCurrency" type="xsd:boolean"/>
-                    <xsd:element name="organizationName" type="xsd:string"/>
-                    <xsd:element name="profileId" type="xsd:string"/>
-                    <xsd:element name="roleId" type="xsd:string"/>
-                    <xsd:element name="sessionSecondsValid" type="xsd:int"/>
-                    <xsd:element name="userDefaultCurrencyIsoCode" type="xsd:string"/>
-                    <xsd:element name="userEmail" type="xsd:string"/>
-                    <xsd:element name="userFullName" type="xsd:string"/>
-                    <xsd:element name="userId" type="xsd:string"/>
-                    <xsd:element name="userLanguage" type="xsd:string"/>
-                    <xsd:element name="userLocale" type="xsd:string"/>
-                    <xsd:element name="userName" type="xsd:string"/>
-                    <xsd:element name="userTimeZone" type="xsd:string"/>
-                    <xsd:element name="userType" type="xsd:string"/>
-                    <xsd:element name="userUiSkin" type="xsd:string"/>
-                </xsd:sequence>
-            </xsd:complexType>
+            <xsd:element name="SessionHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sessionId" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:element name="EmailHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="triggerUserEmail" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:schema>
     </types>
 
-    <message name="loginRequest">
-        <part name="parameters" element="tns:loginRequest"/>
+    <message name="createRequest">
+        <part name="parameters" element="tns:create"/>
+        <part name="SessionHeader" element="tns:SessionHeader"/>
+        <part name="EmailHeader" element="tns:EmailHeader"/>
     </message>
 
-    <message name="loginResponse">
-        <part name="parameters" element="tns:loginResponse"/>
+    <message name="createResponse">
+        <part name="parameters" element="tns:createResponse"/>
     </message>
 
-    <portType name="LoginPortType">
-        <operation name="login">
-            <input message="tns:loginRequest"/>
-            <output message="tns:loginResponse"/>
+    <portType name="SalesforceLeadCreatePortType">
+        <operation name="create">
+            <input message="tns:createRequest"/>
+            <output message="tns:createResponse"/>
         </operation>
     </portType>
 
-    <binding name="LoginBinding" type="tns:LoginPortType">
+    <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
         <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <operation name="login">
-            <soap:operation soapAction="urn:login"/>
+        <operation name="create">
+            <soap:operation soapAction="urn:create"/>
             <input>
+                <soap:header message="tns:createRequest" part="SessionHeader" use="literal"/>
+                <soap:header message="tns:createRequest" part="EmailHeader" use="literal"/>
                 <soap:body use="literal"/>
             </input>
             <output>
@@ -101,9 +99,9 @@
         </operation>
     </binding>
 
-    <service name="LoginService">
-        <port name="LoginPort" binding="tns:LoginBinding">
-            <soap:address location="https://test.salesforce.com/services/Soap/u/58.0"/>
+    <service name="SalesforceLeadCreateService">
+        <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
+            <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
         </port>
     </service>
 </definitions>

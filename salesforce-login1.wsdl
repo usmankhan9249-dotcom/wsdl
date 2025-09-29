@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="urn:partner.soap.sforce.com"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="urn:partner.soap.sforce.com">
+
+    <types>
+        <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
+            <xsd:element name="loginRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="request" type="tns:LoginRequestType"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="LoginRequestType">
+                <xsd:sequence>
+                    <xsd:element name="username" type="xsd:string"/>
+                    <xsd:element name="password" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:element name="loginResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="result" type="tns:LoginResult"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <xsd:complexType name="LoginResult">
+                <xsd:sequence>
+                    <xsd:element name="metadataServerUrl" type="xsd:string"/>
+                    <xsd:element name="passwordExpired" type="xsd:boolean"/>
+                    <xsd:element name="sandbox" type="xsd:boolean"/>
+                    <xsd:element name="serverUrl" type="xsd:string"/>
+                    <xsd:element name="sessionId" type="xsd:string"/>
+                    <xsd:element name="userId" type="xsd:string"/>
+                    <xsd:element name="userInfo" type="tns:UserInfo"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="UserInfo">
+                <xsd:sequence>
+                    <xsd:element name="accessibilityMode" type="xsd:boolean"/>
+                    <xsd:element name="chatterExternal" type="xsd:boolean"/>
+                    <xsd:element name="currencySymbol" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="orgAttachmentFileSizeLimit" type="xsd:int"/>
+                    <xsd:element name="orgDefaultCurrencyIsoCode" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="orgDefaultCurrencyLocale" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="orgDisallowHtmlAttachments" type="xsd:boolean"/>
+                    <xsd:element name="orgHasPersonAccounts" type="xsd:boolean"/>
+                    <xsd:element name="organizationId" type="xsd:string"/>
+                    <xsd:element name="organizationMultiCurrency" type="xsd:boolean"/>
+                    <xsd:element name="organizationName" type="xsd:string"/>
+                    <xsd:element name="profileId" type="xsd:string"/>
+                    <xsd:element name="roleId" type="xsd:string"/>
+                    <xsd:element name="sessionSecondsValid" type="xsd:int"/>
+                    <xsd:element name="userDefaultCurrencyIsoCode" type="xsd:string"/>
+                    <xsd:element name="userEmail" type="xsd:string"/>
+                    <xsd:element name="userFullName" type="xsd:string"/>
+                    <xsd:element name="userId" type="xsd:string"/>
+                    <xsd:element name="userLanguage" type="xsd:string"/>
+                    <xsd:element name="userLocale" type="xsd:string"/>
+                    <xsd:element name="userName" type="xsd:string"/>
+                    <xsd:element name="userTimeZone" type="xsd:string"/>
+                    <xsd:element name="userType" type="xsd:string"/>
+                    <xsd:element name="userUiSkin" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+
+    <message name="loginRequest">
+        <part name="parameters" element="tns:loginRequest"/>
+    </message>
+
+    <message name="loginResponse">
+        <part name="parameters" element="tns:loginResponse"/>
+    </message>
+
+    <portType name="LoginPortType">
+        <operation name="login">
+            <input message="tns:loginRequest"/>
+            <output message="tns:loginResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="LoginBinding" type="tns:LoginPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="login">
+            <soap:operation soapAction="urn:login"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="LoginService">
+        <port name="LoginPort" binding="tns:LoginBinding">
+            <soap:address location="https://test.salesforce.com/services/Soap/u/58.0"/>
+        </port>
+    </service>
+</definitions>

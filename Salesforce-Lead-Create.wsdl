@@ -77,15 +77,34 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+
+            <xsd:element name="LimitInfoHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="limitInfo">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="current" type="xsd:int"/>
+                                    <xsd:element name="limit" type="xsd:int"/>
+                                    <xsd:element name="type" type="xsd:string"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
         </xsd:schema>
     </types>
 
     <message name="createLeadRequest">
         <part name="parameters" element="tns:create"/>
+        <part name="SessionHeader" element="tns:SessionHeader"/>
+        <part name="EmailHeader" element="tns:EmailHeader"/>
     </message>
 
     <message name="createLeadResponse">
         <part name="parameters" element="tns:createResponse"/>
+        <part name="LimitInfoHeader" element="tns:LimitInfoHeader"/>
     </message>
 
     <portType name="SalesforceLeadPortType">
@@ -101,9 +120,12 @@
             <soap:operation soapAction="urn:create"/>
             <input>
                 <soap:body use="literal"/>
+                <soap:header message="tns:createLeadRequest" part="SessionHeader" use="literal"/>
+                <soap:header message="tns:createLeadRequest" part="EmailHeader" use="literal"/>
             </input>
             <output>
                 <soap:body use="literal"/>
+                <soap:header message="tns:createLeadResponse" part="LimitInfoHeader" use="literal"/>
             </output>
         </operation>
     </binding>

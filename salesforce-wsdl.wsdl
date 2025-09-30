@@ -9,24 +9,16 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- Unified Input Object -->
+      <!-- Unified Input Object for the SOAP body -->
       <xsd:element name="CreateLeadEnvelope">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="SessionHeader" type="tns:SessionHeader"/>
             <xsd:element name="sObjects" type="tns:Lead" maxOccurs="unbounded"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <!-- SessionHeader Type -->
-      <xsd:complexType name="SessionHeader">
-        <xsd:sequence>
-          <xsd:element name="sessionId" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-
-      <!-- Lead Type -->
+      <!-- Lead Type, representing the Lead sObject -->
       <xsd:complexType name="Lead">
         <xsd:sequence>
           <xsd:element name="type" type="xsd:string"/>
@@ -66,7 +58,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="envelope" element="tns:CreateLeadEnvelope"/>
+    <part name="parameters" element="tns:CreateLeadEnvelope"/>
   </message>
 
   <message name="CreateLeadResponseMessage">
@@ -87,7 +79,7 @@
     <operation name="create">
       <soap:operation soapAction="urn:create"/>
       <input>
-        <soap:body parts="envelope" use="literal"/>
+        <soap:body use="literal"/>
       </input>
       <output>
         <soap:body use="literal"/>

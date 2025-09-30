@@ -2,7 +2,7 @@
 <definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns:tns="urn:partner.soap.sforce.com"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" <!-- Add xsi namespace -->
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              name="SalesforceLeadCreate"
              targetNamespace="urn:partner.soap.sforce.com">

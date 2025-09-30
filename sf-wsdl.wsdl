@@ -9,31 +9,92 @@
 
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
-      <xsd:element name="createResponse">
+
+      <!-- Define the sObject base type as abstract -->
+      <xsd:complexType name="sObject" abstract="true">
+        <xsd:sequence/> <!-- sObject itself has no fields, but derived types will use the polymorphic xsi:type attribute -->
+      </xsd:complexType>
+
+      <!-- Define the ID type as in Salesforce Partner API -->
+      <xsd:simpleType name="ID">
+        <xsd:restriction base="xsd:string">
+          <xsd:length value="18"/>
+          <xsd:pattern value="[a-zA-Z0-9]{18}"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+
+      <!-- Create operation wrapper element, now taking a list of generic sObjects -->
+      <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="result" type="tns:SaveResult"/>
+            <xsd:element name="sObjects" type="tns:sObject" maxOccurs="unbounded"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <!-- SaveResult type to handle success or errors, including duplicates -->
+      <!-- Response wrapper element -->
+      <xsd:element name="createResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" type="tns:SaveResult" maxOccurs="unbounded"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- SaveResult type from Salesforce partner WSDL -->
       <xsd:complexType name="SaveResult">
         <xsd:sequence>
-          <xsd:element name="id" type="xsd:string" nillable="true"/>
+          <xsd:element name="errors" type="tns:Error" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="id" type="tns:ID" nillable="true"/>
           <xsd:element name="success" type="xsd:boolean"/>
         </xsd:sequence>
       </xsd:complexType>
-      <!-- Salesforce sObject type for record references, now as a base type -->
-      <!-- We will use xsi:type to specify the concrete type like Lead -->
 
-      <!-- Lead Type, now potentially extending sObject or containing sObject attributes -->
-      <!-- For this approach, we keep Lead as a separate complexType and will specify xsi:type="Lead" -->
+      <!-- General Error type from Salesforce partner WSDL -->
+      <xsd:complexType name="Error">
+          <xsd:sequence>
+              <xsd:element name="fields" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="message" type="xsd:string"/>
+              <xsd:element name="statusCode" type="xsd:string"/>
+              <xsd:element name="duplicateResult" type="tns:DuplicateResult" minOccurs="0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- DuplicateResult type for duplicate detection -->
+      <xsd:complexType name="DuplicateResult">
+          <xsd:sequence>
+              <xsd:element name="allowSave" type="xsd:boolean"/>
+              <xsd:element name="duplicateRule" type="xsd:string"/>
+              <xsd:element name="duplicateRuleEntityType" type="xsd:string"/>
+              <xsd:element name="errorMessage" type="xsd:string"/>
+              <xsd:element name="matchResults" type="tns:MatchResult" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- MatchResult type for detailed duplicate matching results -->
+      <xsd:complexType name="MatchResult">
+          <xsd:sequence>
+              <xsd:element name="matchEngine" type="xsd:string"/>
+              <xsd:element name="matchRecords" type="tns:MatchRecord" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="rule" type="xsd:string"/>
+              <xsd:element name="size" type="xsd:int"/>
+              <xsd:element name="success" type="xsd:boolean"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- MatchRecord type for individual matching records -->
+      <xsd:complexType name="MatchRecord">
+          <xsd:sequence>
+              <xsd:element name="matchConfidence" type="xsd:double"/>
+              <xsd:element name="record" type="tns:sObject"/>
+          </xsd:sequence>
+      </xsd:complexType>
+      
+      <!-- Lead Type with 'type' and 'Id' removed since they are handled by the SOAP engine -->
       <xsd:complexType name="Lead">
         <xsd:complexContent>
-            <xsd:extension base="tns:sObject"> <!-- Extend sObject -->
+            <xsd:extension base="tns:sObject">
                 <xsd:sequence>
-                  <!-- The 'type' element is now inherited from sObject, but can be made explicit if desired -->
                   <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
                   <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
                   <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
@@ -57,18 +118,6 @@
             </xsd:extension>
         </xsd:complexContent>
       </xsd:complexType>
-
-      <!-- Create operation wrapper element, now taking a list of generic sObjects -->
-      <xsd:element name="create">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:sObject"/> <!-- Accepts multiple sObjects -->
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-
-      <!-- ... (rest of your types and definitions remain largely the same) ... -->
-
     </xsd:schema>
   </types>
 

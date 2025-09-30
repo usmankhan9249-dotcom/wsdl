@@ -13,7 +13,6 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <!-- Modified: Removed maxOccurs="unbounded" -->
             <xsd:element name="sObjects" type="tns:Lead"/>
           </xsd:sequence>
         </xsd:complexType>
@@ -23,15 +22,72 @@
       <xsd:element name="createResponse">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="result" type="xsd:string"/>
+            <xsd:element name="result" type="tns:SaveResult"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <!-- Lead Type (remains unchanged) -->
+      <!-- SaveResult type to handle success or errors, including duplicates -->
+      <xsd:complexType name="SaveResult">
+        <xsd:sequence>
+          <xsd:element name="errors" type="tns:Error" minOccurs="0"/>
+          <xsd:element name="id" type="xsd:string" nillable="true"/>
+          <xsd:element name="success" type="xsd:boolean"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      
+      <!-- General Error type from Salesforce partner WSDL -->
+      <xsd:complexType name="Error">
+          <xsd:sequence>
+              <xsd:element name="fields" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="message" type="xsd:string"/>
+              <xsd:element name="statusCode" type="xsd:string"/>
+              <xsd:element name="duplicateResult" type="tns:DuplicateResult" minOccurs="0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- DuplicateResult type for duplicate detection -->
+      <xsd:complexType name="DuplicateResult">
+          <xsd:sequence>
+              <xsd:element name="allowSave" type="xsd:boolean"/>
+              <xsd:element name="duplicateRule" type="xsd:string"/>
+              <xsd:element name="duplicateRuleEntityType" type="xsd:string"/>
+              <xsd:element name="errorMessage" type="xsd:string"/>
+              <xsd:element name="matchResults" type="tns:MatchResult" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- MatchResult type for detailed duplicate matching results -->
+      <xsd:complexType name="MatchResult">
+          <xsd:sequence>
+              
+              <xsd:element name="matchEngine" type="xsd:string"/>
+              <xsd:element name="matchRecords" type="tns:MatchRecord" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="rule" type="xsd:string"/>
+              <xsd:element name="size" type="xsd:int"/>
+              <xsd:element name="success" type="xsd:boolean"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- MatchRecord type for individual matching records -->
+      <xsd:complexType name="MatchRecord">
+          <xsd:sequence>
+              <xsd:element name="matchConfidence" type="xsd:double"/>
+              <xsd:element name="record" type="tns:sObject"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- Salesforce sObject type for record references -->
+      <xsd:complexType name="sObject">
+          <xsd:sequence>
+              <xsd:element name="type" type="xsd:string"/>
+              <xsd:element name="Id" type="xsd:string"/>
+          </xsd:sequence>
+      </xsd:complexType>
+      
+      <!-- Lead Type with 'type' removed (remains unchanged from previous refinement) -->
       <xsd:complexType name="Lead">
         <xsd:sequence>
-          <xsd:element name="type" type="xsd:string"/>
           <xsd:element name="Company" type="xsd:string"/>
           <xsd:element name="Email" type="xsd:string"/>
           <xsd:element name="PostalCode" type="xsd:string"/>

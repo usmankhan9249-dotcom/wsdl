@@ -2,7 +2,6 @@
 <definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns:tns="urn:partner.soap.sforce.com"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              name="SalesforceLeadCreate"
              targetNamespace="urn:partner.soap.sforce.com">
@@ -10,45 +9,11 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- Define the ID type -->
-      <xsd:simpleType name="ID">
-        <xsd:restriction base="xsd:string">
-          <xsd:length value="18"/>
-          <xsd:pattern value="[a-zA-Z0-9]{18}"/>
-        </xsd:restriction>
-      </xsd:simpleType>
-      
-      <!-- Define a concrete sObject type (no abstract base type) -->
-      <xsd:complexType name="sObject">
-          <xsd:sequence>
-              <!-- All Lead fields are defined inline here, breaking Salesforce API conventions -->
-              <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Acquiring_Page__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Lead_Type_c__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Industry" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Street" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Type_of_Business__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Referral_ID__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="City" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="OwnerID" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="LeadSource" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="State" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Comments__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="RecordTypeID" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="Referral_URL__c" type="xsd:string" minOccurs="0"/>
-              <xsd:element name="LastName" type="xsd:string" minOccurs="0"/>
-          </xsd:sequence>
-      </xsd:complexType>
-
-      <!-- Create operation wrapper element, using the improperly defined sObject -->
+      <!-- Create operation wrapper element -->
       <xsd:element name="createRequest">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:sObject"/>
+            <xsd:element name="sObjects" type="tns:Lead"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -57,20 +22,20 @@
       <xsd:element name="createResponse">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="result" type="tns:SaveResult" maxOccurs="unbounded"/>
+            <xsd:element name="result" type="tns:SaveResult"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <!-- SaveResult type from Salesforce partner WSDL -->
+      <!-- SaveResult type to handle success or errors, including duplicates -->
       <xsd:complexType name="SaveResult">
         <xsd:sequence>
-          <xsd:element name="errors" type="tns:Error" minOccurs="0" maxOccurs="unbounded"/>
-          <xsd:element name="id" type="tns:ID" nillable="true"/>
+          <xsd:element name="errors" type="tns:Error" minOccurs="0"/>
+          <xsd:element name="id" type="xsd:string" nillable="true"/>
           <xsd:element name="success" type="xsd:boolean"/>
         </xsd:sequence>
       </xsd:complexType>
-
+      
       <!-- General Error type from Salesforce partner WSDL -->
       <xsd:complexType name="Error">
           <xsd:sequence>
@@ -88,13 +53,14 @@
               <xsd:element name="duplicateRule" type="xsd:string"/>
               <xsd:element name="duplicateRuleEntityType" type="xsd:string"/>
               <xsd:element name="errorMessage" type="xsd:string"/>
-              <xsd:element name="matchRecords" type="tns:MatchResult" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="matchResults" type="tns:MatchResult" minOccurs="0" maxOccurs="unbounded"/>
           </xsd:sequence>
       </xsd:complexType>
 
       <!-- MatchResult type for detailed duplicate matching results -->
       <xsd:complexType name="MatchResult">
           <xsd:sequence>
+              
               <xsd:element name="matchEngine" type="xsd:string"/>
               <xsd:element name="matchRecords" type="tns:MatchRecord" minOccurs="0" maxOccurs="unbounded"/>
               <xsd:element name="rule" type="xsd:string"/>
@@ -110,7 +76,40 @@
               <xsd:element name="record" type="tns:sObject"/>
           </xsd:sequence>
       </xsd:complexType>
+
+      <!-- Salesforce sObject type for record references -->
+      <xsd:complexType name="sObject">
+          <xsd:sequence>
+              <xsd:element name="type" type="xsd:string"/>
+              <xsd:element name="Id" type="xsd:string"/>
+          </xsd:sequence>
+      </xsd:complexType>
       
+      <!-- Lead Type with 'type' removed (remains unchanged from previous refinement) -->
+      <xsd:complexType name="Lead">
+        <xsd:sequence>
+          <xsd:element name="type" type="xsd:string"/>
+          <xsd:element name="Company" type="xsd:string"/>
+          <xsd:element name="Email" type="xsd:string"/>
+          <xsd:element name="PostalCode" type="xsd:string"/>
+          <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
+          <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
+          <xsd:element name="Industry" type="xsd:string"/>
+          <xsd:element name="Phone" type="xsd:string"/>
+          <xsd:element name="Street" type="xsd:string"/>
+          <xsd:element name="Type_of_Business__c" type="xsd:string"/>
+          <xsd:element name="Referral_ID__c" type="xsd:string"/>
+          <xsd:element name="City" type="xsd:string"/>
+          <xsd:element name="OwnerID" type="xsd:string"/>
+          <xsd:element name="LeadSource" type="xsd:string"/>
+          <xsd:element name="State" type="xsd:string"/>
+          <xsd:element name="Comments__c" type="xsd:string"/>
+          <xsd:element name="RecordTypeID" type="xsd:string"/>
+          <xsd:element name="Country" type="xsd:string"/>
+          <xsd:element name="Referral_URL__c" type="xsd:string"/>
+          <xsd:element name="LastName" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
     </xsd:schema>
   </types>
 

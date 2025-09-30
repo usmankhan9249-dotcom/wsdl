@@ -85,10 +85,11 @@
   <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <operation name="create">
-      <soap:operation soapAction="urn:create"/>
+      <soap:operation soapAction="urn:create">
         <soap:header message="tns:CreateLeadRequestMessage" part="envelope" use="literal"/>
         <soap:body parts="envelope" use="literal"/>
       </input>
+      </soap:operation>
       <output>
         <soap:body use="literal"/>
       </output>

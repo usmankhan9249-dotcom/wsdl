@@ -9,32 +9,6 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- Unified Request Object -->
-      <xsd:element name="CreateLeadRequest">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="SessionHeader" type="tns:SessionHeader"/>
-            <xsd:element name="sObjects" type="tns:Lead"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-
-      <!-- Response Object -->
-      <xsd:element name="CreateLeadResponse">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="result" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-
-      <!-- Session Header -->
-      <xsd:complexType name="SessionHeader">
-        <xsd:sequence>
-          <xsd:element name="sessionId" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-
       <!-- Lead Object -->
       <xsd:complexType name="Lead">
         <xsd:sequence>
@@ -61,23 +35,54 @@
         </xsd:sequence>
       </xsd:complexType>
 
+      <!-- SessionHeader Element -->
+      <xsd:element name="SessionHeader">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="sessionId" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Create Request Element -->
+      <xsd:element name="create">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="sObjects" type="tns:Lead"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Create Response Element -->
+      <xsd:element name="createResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
     </xsd:schema>
   </types>
 
   <!-- Messages -->
-  <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:CreateLeadRequest"/>
+  <message name="createRequest">
+    <part name="parameters" element="tns:create"/>
   </message>
 
-  <message name="CreateLeadResponseMessage">
-    <part name="parameters" element="tns:CreateLeadResponse"/>
+  <message name="createResponse">
+    <part name="parameters" element="tns:createResponse"/>
+  </message>
+
+  <message name="SessionHeaderMessage">
+    <part name="SessionHeader" element="tns:SessionHeader"/>
   </message>
 
   <!-- Port Type -->
   <portType name="SalesforceLeadCreatePortType">
     <operation name="create">
-      <input message="tns:CreateLeadRequestMessage"/>
-      <output message="tns:CreateLeadResponseMessage"/>
+      <input message="tns:createRequest"/>
+      <output message="tns:createResponse"/>
     </operation>
   </portType>
 
@@ -87,6 +92,7 @@
     <operation name="create">
       urn:create
       <input>
+        <soap:header message="tns:SessionHeaderMessage" part="SessionHeader" use="literal"/>
         <soap:body use="literal"/>
       </input>
       <output>

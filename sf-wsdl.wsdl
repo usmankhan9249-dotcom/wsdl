@@ -14,6 +14,7 @@
         <xsd:complexType>
           <xsd:sequence>
              <!-- All Lead fields are defined inline here, breaking Salesforce API conventions -->
+              <xsd:element name="type" type="xsd:string" minOccurs="0"/>
               <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
               <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
               <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>

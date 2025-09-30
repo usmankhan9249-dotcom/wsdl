@@ -45,10 +45,10 @@
       </xsd:complexType>
 
       <!-- Create operation wrapper element, using the improperly defined sObject -->
-      <xsd:element name="create">
+      <xsd:element name="createRequest">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:sObject" maxOccurs="unbounded"/>
+            <xsd:element name="sObjects" type="tns:sObject"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -116,7 +116,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:create"/>
+    <part name="parameters" element="tns:createRequest"/>
   </message>
 
   <message name="CreateLeadResponseMessage">

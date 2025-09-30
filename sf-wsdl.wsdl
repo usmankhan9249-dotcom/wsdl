@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="urn:partner.soap.sforce.com"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" <!-- Add xsi namespace -->
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="SalesforceLeadCreate"
+             targetNamespace="urn:partner.soap.sforce.com">
+
+  <types>
+    <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
+
+      <!-- Salesforce sObject type for record references, now as a base type -->
+      <!-- We will use xsi:type to specify the concrete type like Lead -->
+      <xsd:complexType name="sObject">
+          <xsd:sequence>
+              <xsd:element name="type" type="xsd:string" minOccurs="0"/> <!-- type is often within the concrete object -->
+              <xsd:element name="Id" type="xsd:string" nillable="true" minOccurs="0"/>
+          </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- Lead Type, now potentially extending sObject or containing sObject attributes -->
+      <!-- For this approach, we keep Lead as a separate complexType and will specify xsi:type="Lead" -->
+      <xsd:complexType name="Lead">
+        <xsd:complexContent>
+            <xsd:extension base="tns:sObject"> <!-- Extend sObject -->
+                <xsd:sequence>
+                  <!-- The 'type' element is now inherited from sObject, but can be made explicit if desired -->
+                  <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Acquiring_Page__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Lead_Type_c__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Industry" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Street" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Type_of_Business__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Referral_ID__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="City" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="OwnerID" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="LeadSource" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="State" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Comments__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="RecordTypeID" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="Referral_URL__c" type="xsd:string" minOccurs="0"/>
+                  <xsd:element name="LastName" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+
+      <!-- Create operation wrapper element, now taking a list of generic sObjects -->
+      <xsd:element name="create">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="sObjects" type="tns:sObject" maxOccurs="unbounded"/> <!-- Accepts multiple sObjects -->
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- ... (rest of your types and definitions remain largely the same) ... -->
+
+    </xsd:schema>
+  </types>
+
+  <!-- Messages -->
+  <message name="CreateLeadRequestMessage">
+    <part name="parameters" element="tns:create"/>
+  </message>
+
+  <message name="CreateLeadResponseMessage">
+    <part name="parameters" element="tns:createResponse"/>
+  </message>
+
+  <!-- Port Type -->
+  <portType name="SalesforceLeadCreatePortType">
+    <operation name="create">
+      <input message="tns:CreateLeadRequestMessage"/>
+      <output message="tns:CreateLeadResponseMessage"/>
+    </operation>
+  </portType>
+
+  <!-- Binding -->
+  <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="create">
+      <soap:operation soapAction="urn:create"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <!-- Service -->
+  <service name="SalesforceLeadCreateService">
+    <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
+      <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
+    </port>
+  </service>
+
+</definitions>

@@ -88,6 +88,7 @@
       <!-- Lead Type with 'type' removed (remains unchanged from previous refinement) -->
       <xsd:complexType name="Lead">
         <xsd:sequence>
+          <xsd:element name="type" type="xsd:string"/>
           <xsd:element name="Company" type="xsd:string"/>
           <xsd:element name="Email" type="xsd:string"/>
           <xsd:element name="PostalCode" type="xsd:string"/>

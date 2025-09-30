@@ -10,12 +10,7 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- Define the sObject base type as abstract -->
-      <xsd:complexType name="sObject" abstract="true">
-        <xsd:sequence/> <!-- sObject itself has no fields, but derived types will use the polymorphic xsi:type attribute -->
-      </xsd:complexType>
-
-      <!-- Define the ID type as in Salesforce Partner API -->
+      <!-- Define the ID type -->
       <xsd:simpleType name="ID">
         <xsd:restriction base="xsd:string">
           <xsd:length value="18"/>
@@ -23,7 +18,14 @@
         </xsd:restriction>
       </xsd:simpleType>
 
-      <!-- Create operation wrapper element, now taking a list of generic sObjects -->
+      <!-- Define sObject as a concrete type containing an optional Lead, this is invalid and will cause errors -->
+      <xsd:complexType name="sObject">
+        <xsd:sequence>
+          <xsd:element name="Lead" type="tns:Lead" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- Create operation wrapper element, using the improperly defined sObject -->
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
@@ -90,33 +92,29 @@
           </xsd:sequence>
       </xsd:complexType>
       
-      <!-- Lead Type with 'type' and 'Id' removed since they are handled by the SOAP engine -->
+      <!-- Lead Type as a distinct complex type, but no longer polymorphic -->
       <xsd:complexType name="Lead">
-        <xsd:complexContent>
-            <xsd:extension base="tns:sObject">
-                <xsd:sequence>
-                  <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Acquiring_Page__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Lead_Type_c__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Industry" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Street" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Type_of_Business__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Referral_ID__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="City" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="OwnerID" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="LeadSource" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="State" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Comments__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="RecordTypeID" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Referral_URL__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="LastName" type="xsd:string" minOccurs="0"/>
-                </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
+        <xsd:sequence>
+          <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Acquiring_Page__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Lead_Type_c__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Industry" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Street" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Type_of_Business__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Referral_ID__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="City" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="OwnerID" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="LeadSource" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="State" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Comments__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="RecordTypeID" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="Referral_URL__c" type="xsd:string" minOccurs="0"/>
+          <xsd:element name="LastName" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
       </xsd:complexType>
     </xsd:schema>
   </types>

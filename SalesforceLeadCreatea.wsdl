@@ -57,20 +57,12 @@
                 </xsd:complexType>
             </xsd:element>
 
-            <xsd:element name="EmailHeader">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="triggerUserEmail" type="xsd:boolean"/>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
         </xsd:schema>
     </types>
 
     <message name="createRequest">
         <part name="parameters" element="tns:create"/>
         <part name="SessionHeader" element="tns:SessionHeader"/>
-        <part name="EmailHeader" element="tns:EmailHeader"/>
     </message>
 
     <message name="createResponse">
@@ -90,7 +82,6 @@
             <soap:operation soapAction="urn:create"/>
             <input>
                 <soap:header message="tns:createRequest" part="SessionHeader" use="literal"/>
-                <soap:header message="tns:createRequest" part="EmailHeader" use="literal"/>
                 <soap:body use="literal"/>
             </input>
             <output>

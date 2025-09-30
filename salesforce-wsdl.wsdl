@@ -9,16 +9,26 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- Unified Input Object for the SOAP body -->
-      <xsd:element name="CreateLeadEnvelope">
+      <!-- Create operation wrapper element -->
+      <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:Lead" maxOccurs="unbounded"/>
+            <!-- Modified: Removed maxOccurs="unbounded" -->
+            <xsd:element name="sObjects" type="tns:Lead"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
-      <!-- Lead Type, representing the Lead sObject -->
+      <!-- Response wrapper element -->
+      <xsd:element name="createResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Lead Type (remains unchanged) -->
       <xsd:complexType name="Lead">
         <xsd:sequence>
           <xsd:element name="type" type="xsd:string"/>
@@ -43,26 +53,16 @@
           <xsd:element name="LastName" type="xsd:string"/>
         </xsd:sequence>
       </xsd:complexType>
-
-      <!-- Response Element -->
-      <xsd:element name="CreateLeadResponse">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="result" type="xsd:string"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
-
     </xsd:schema>
   </types>
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:CreateLeadEnvelope"/>
+    <part name="parameters" element="tns:create"/>
   </message>
 
   <message name="CreateLeadResponseMessage">
-    <part name="parameters" element="tns:CreateLeadResponse"/>
+    <part name="parameters" element="tns:createResponse"/>
   </message>
 
   <!-- Port Type -->

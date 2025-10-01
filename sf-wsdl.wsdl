@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
              xmlns:tns="urn:partner.soap.sforce.com"
+             xmlns:tnss="urn:sobject.partner.soap.sforce.com"
              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
              xmlns="http://schemas.xmlsoap.org/wsdl/"
              name="SalesforceLeadCreate"
@@ -13,34 +14,8 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects">
-              <xsd:complexType>
-                <xsd:sequence>
-                  <!-- All Lead fields are defined inline here, breaking Salesforce API conventions -->
-                  <xsd:element name="type" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Company" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Email" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="PostalCode" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Acquiring_Page__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Lead_Type_c__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Industry" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Street" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Type_of_Business__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Referral_ID__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="City" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="OwnerID" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="LeadSource" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="State" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Comments__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="RecordTypeID" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Country" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="Referral_URL__c" type="xsd:string" minOccurs="0"/>
-                  <xsd:element name="LastName" type="xsd:string" minOccurs="0"/>
-               </xsd:sequence>
-             </xsd:complexType>
-           </xsd:element>
-         </xsd:sequence>
+            <xsd:element name="sObjects" type="tnss:sObjects"/>
+          </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
 
@@ -112,7 +87,7 @@
       </xsd:complexType>
       
       <!-- Lead Type with 'type' removed (remains unchanged from previous refinement) -->
-      <xsd:complexType name="Lead">
+      <xsd:complexType name="sObjects">
         <xsd:sequence>
           <xsd:element name="type" type="xsd:string"/>
           <xsd:element name="Company" type="xsd:string"/>
@@ -160,6 +135,7 @@
   <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <operation name="create">
+      <soap:operation soapAction="urn:create"/>
       <input>
         <soap:body use="literal"/>
       </input>
@@ -173,6 +149,12 @@
   <service name="SalesforceLeadCreateService">
     <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
       <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
+    </port>
+  </service>
+
+<service name="SalesforceLeadplayService">
+    <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
+      <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/50.0"/>
     </port>
   </service>
 

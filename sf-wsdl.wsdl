@@ -151,8 +151,8 @@
   <!-- Port Type -->
   <portType name="SalesforceLeadCreatePortType">
     <operation name="create">
-      <input message="tns:CreateLeadRequestMessage"/>
-      <output message="tns:CreateLeadResponseMessage"/>
+      <input message="tns:CreateLeadResponseMessage"/>
+      <output message="tns:CreateLeadRequestMessage"/>
     </operation>
   </portType>
 

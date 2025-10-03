@@ -145,17 +145,4 @@
     </operation>
   </binding>
 
-  <!-- Service -->
-  <service name="SalesforceLeadCreateService">
-    <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
-      <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/58.0"/>
-    </port>
-  </service>
-
-<service name="SalesforceLeadplayService">
-    <port name="SalesforceLeadCreatePort" binding="tns:SalesforceLeadCreateBinding">
-      <soap:address location="https://firstdata--prodcopy.sandbox.my.salesforce.com/services/Soap/u/50.0"/>
-    </port>
-  </service>
-
 </definitions>

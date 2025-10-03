@@ -14,7 +14,7 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:sObjects"/>
+            <xsd:element name="sObjects" type="tns:sObjectss"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -87,7 +87,7 @@
       </xsd:complexType>
       
       <!-- Lead Type with 'type' removed (remains unchanged from previous refinement) -->
-      <xsd:complexType name="sObjects">
+      <xsd:complexType name="sObjectss">
         <xsd:sequence>
           <xsd:element name="type" type="xsd:string"/>
           <xsd:element name="Company" type="xsd:string"/>

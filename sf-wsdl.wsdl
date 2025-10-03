@@ -139,6 +139,9 @@
       <input>
         <soap:body use="literal"/>
       </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
     </operation>
   </binding>
 

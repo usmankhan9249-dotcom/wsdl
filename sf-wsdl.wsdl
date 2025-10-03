@@ -137,11 +137,8 @@
     <operation name="create">
       <soap:operation soapAction="urn:create"/>
       <input>
-        <soap:body/>
-      </input>
-      <output>
         <soap:body use="literal"/>
-      </output>
+      </input>
     </operation>
   </binding>
 

@@ -14,7 +14,7 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObject" type="tns:sObjectss"/>
+            <xsd:element name="sObjectss" type="tns:sObjectss"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>

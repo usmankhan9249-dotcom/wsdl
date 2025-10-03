@@ -13,7 +13,7 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sobjects" type="tns:LeadRequest"/>
+            <xsd:element name="sobjects" type="tns:LeadRequest" minOccurs="1"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>

@@ -134,7 +134,7 @@
   <!-- Binding -->
   <binding name="SalesforceLeadCreateBinding" type="tns:SalesforceLeadCreatePortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <operation name="create">
+    <operation name="createLead">
       <soap:operation soapAction="urn:create"/>
       <input>
         <soap:body use="literal"/>

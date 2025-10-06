@@ -14,7 +14,7 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjects" type="tns:sObjectss"/>
+            <xsd:element name="sObjects" type="xsd:string"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -116,7 +116,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="leadRequest" type="tns:sObjectss"/>
+    <part name="leadRequest" element="tns:create"/>
   </message>
 
   <message name="CreateLeadResponseMessage">

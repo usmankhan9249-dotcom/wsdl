@@ -116,7 +116,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="leadRequest" element="tns:create"/>
+    <part name="leadRequest" type="tns:sObjectss"/>
   </message>
 
   <message name="CreateLeadResponseMessage">

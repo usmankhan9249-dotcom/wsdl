@@ -14,7 +14,7 @@
       <xsd:element name="create">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="sObjectss" type="tns:sObjectss"/>
+            <xsd:element name="sObjects" type="tns:sObjectss"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -116,11 +116,11 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:create"/>
+    <part name="leadRequest" element="tns:create"/>
   </message>
 
   <message name="CreateLeadResponseMessage">
-    <part name="parameters" element="tns:createResponse"/>
+    <part name="leadResponse" element="tns:createResponse"/>
   </message>
 
   <!-- Port Type -->

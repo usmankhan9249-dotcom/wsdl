@@ -9,54 +9,41 @@
   <types>
     <xsd:schema targetNamespace="urn:partner.soap.sforce.com">
 
-      <!-- LeadRequest type -->
-      <xsd:complexType name="LeadRequest">
-        <xsd:sequence>
-          <xsd:element name="type" type="xsd:string"/>
-          <xsd:element name="Company" type="xsd:string"/>
-          <xsd:element name="Email" type="xsd:string"/>
-          <xsd:element name="PostalCode" type="xsd:string"/>
-          <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
-          <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
-          <xsd:element name="Industry" type="xsd:string"/>
-          <xsd:element name="Phone" type="xsd:string"/>
-          <xsd:element name="Street" type="xsd:string"/>
-          <xsd:element name="Type_of_Business__c" type="xsd:string"/>
-          <xsd:element name="Referral_ID__c" type="xsd:string"/>
-          <xsd:element name="City" type="xsd:string"/>
-          <xsd:element name="OwnerID" type="xsd:string"/>
-          <xsd:element name="LeadSource" type="xsd:string"/>
-          <xsd:element name="State" type="xsd:string"/>
-          <xsd:element name="Comments__c" type="xsd:string"/>
-          <xsd:element name="RecordTypeID" type="xsd:string"/>
-          <xsd:element name="Country" type="xsd:string"/>
-          <xsd:element name="Referral_URL__c" type="xsd:string"/>
-          <xsd:element name="LastName" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
+      <!-- Request element with flat fields -->
+      <xsd:element name="createLead">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="type" type="xsd:string"/>
+            <xsd:element name="Company" type="xsd:string"/>
+            <xsd:element name="Email" type="xsd:string"/>
+            <xsd:element name="PostalCode" type="xsd:string"/>
+            <xsd:element name="Acquiring_Page__c" type="xsd:string"/>
+            <xsd:element name="Lead_Type_c__c" type="xsd:string"/>
+            <xsd:element name="Industry" type="xsd:string"/>
+            <xsd:element name="Phone" type="xsd:string"/>
+            <xsd:element name="Street" type="xsd:string"/>
+            <xsd:element name="Type_of_Business__c" type="xsd:string"/>
+            <xsd:element name="Referral_ID__c" type="xsd:string"/>
+            <xsd:element name="City" type="xsd:string"/>
+            <xsd:element name="OwnerID" type="xsd:string"/>
+            <xsd:element name="LeadSource" type="xsd:string"/>
+            <xsd:element name="State" type="xsd:string"/>
+            <xsd:element name="Comments__c" type="xsd:string"/>
+            <xsd:element name="RecordTypeID" type="xsd:string"/>
+            <xsd:element name="Country" type="xsd:string"/>
+            <xsd:element name="Referral_URL__c" type="xsd:string"/>
+            <xsd:element name="LastName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
 
-      <!-- SaveResult type -->
-      <xsd:complexType name="SaveResult">
-        <xsd:sequence>
-          <xsd:element name="id" type="xsd:string"/>
-          <xsd:element name="success" type="xsd:boolean"/>
-          <xsd:element name="message" type="xsd:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-
-      <!-- Named wrapper type for request -->
-      <xsd:complexType name="CreateLeadRequestType">
-        <xsd:sequence>
-          <xsd:element name="lead" type="tns:LeadRequest"/>
-        </xsd:sequence>
-      </xsd:complexType>
-
-      <!-- Top-level request and response elements -->
-      <xsd:element name="createLeadRequest" type="tns:CreateLeadRequestType"/>
+      <!-- Response element -->
       <xsd:element name="createLeadResponse">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="result" type="tns:SaveResult"/>
+            <xsd:element name="id" type="xsd:string"/>
+            <xsd:element name="success" type="xsd:boolean"/>
+            <xsd:element name="message" type="xsd:string"/>
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
@@ -66,7 +53,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:createLeadRequest"/>
+    <part name="parameters" element="tns:createLead"/>
   </message>
 
   <message name="CreateLeadResponseMessage">

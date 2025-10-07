@@ -44,16 +44,15 @@
         </xsd:sequence>
       </xsd:complexType>
 
-      <!-- Request wrapper element -->
-      <xsd:element name="createLead">
-        <xsd:complexType>
-          <xsd:sequence>
-            <xsd:element name="lead" type="tns:LeadRequest"/>
-          </xsd:sequence>
-        </xsd:complexType>
-      </xsd:element>
+      <!-- Named wrapper type for request -->
+      <xsd:complexType name="CreateLeadRequestType">
+        <xsd:sequence>
+          <xsd:element name="lead" type="tns:LeadRequest"/>
+        </xsd:sequence>
+      </xsd:complexType>
 
-      <!-- Response wrapper element -->
+      <!-- Request and Response elements -->
+      <xsd:element name="createLead" type="tns:CreateLeadRequestType"/>
       <xsd:element name="createLeadResponse">
         <xsd:complexType>
           <xsd:sequence>

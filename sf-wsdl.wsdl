@@ -51,8 +51,8 @@
         </xsd:sequence>
       </xsd:complexType>
 
-      <!-- Request and Response elements -->
-      <xsd:element name="createLead" type="tns:CreateLeadRequestType"/>
+      <!-- Top-level request and response elements -->
+      <xsd:element name="createLeadRequest" type="tns:CreateLeadRequestType"/>
       <xsd:element name="createLeadResponse">
         <xsd:complexType>
           <xsd:sequence>
@@ -66,7 +66,7 @@
 
   <!-- Messages -->
   <message name="CreateLeadRequestMessage">
-    <part name="parameters" element="tns:createLead"/>
+    <part name="parameters" element="tns:createLeadRequest"/>
   </message>
 
   <message name="CreateLeadResponseMessage">
